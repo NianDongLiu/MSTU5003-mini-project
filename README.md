@@ -16,13 +16,13 @@ This project is a minimalist breathing pacer designed for people who need a quic
 **4. Reflection**
 
 **What matched your intention, and what didn’t?**
-The initial visual layout beautifully matched my intention of a clean, minimalist UI with soft pastel colors. However, the first iteration of the animation didn't fully match the relaxing intention—it felt mechanical and lacked a natural pause between exhaling and inhaling. Additionally, I realized a purely visual experience wasn't immersive enough for meditation.
+The initial visual layout matched my intention of a clean, minimalist UI with soft pastel colors. However, the first iteration of the animation didn't fully match the relaxing intention, it felt mechanical and lacked a natural pause between exhaling and inhaling. I realized a purely visual experience wasn't immersive enough for meditation.
 
 **What did you test or change, and why?**
 I tested the initial animation by breathing along with it and found the rhythm too rigid. To fix this, I directed the AI to adjust the CSS easing curves for a softer feel and explicitly added a pause state after "Breathe out". I also tested the core interaction and decided to add background audio, sound cues for state changes, and a dark mode. This change was crucial because it allows users to close their eyes and follow the rhythm via audio, while dark mode protects their eyes if they use it for sleep.
 
 **How did AI help, and what did you need to decide or understand yourself?**
-The AI was incredibly helpful in rapidly generating the boilerplate code, coordinating the CSS animations, and structuring the JavaScript logic for dynamic breathing patterns. However, I had to act as the "director" of the experience. The AI didn't inherently know what felt "calming"; I had to make the critical decisions regarding animation pacing, the necessity of a resting pause, and implementing the audio playback tied to the "Start" button to avoid browser autoplay restrictions.
+The AI was incredibly helpful in rapidly generating the html and CSS animations, and structuring the JavaScript logic for breathing patterns. However, the AI didn't inherently know what felt calming; I had to make the decisions regarding animation pacing, making some resting pause, and implementing the audio playback tied to the Start button to avoid browser autoplay restrictions.
 
 **What remains uncertain or unresolved?**
-While the audio works well on desktop browsers, I am still uncertain how perfectly the JavaScript timers and audio clips sync up on mobile devices or under heavy CPU load, as JS `setInterval` can sometimes drift. There might also be minor discrepancies in how different browsers handle the transition from light to dark mode.
+While the audio works well on desktop browsers, I am still uncertain how perfectly the JavaScript timers and audio clips sync up on mobile devices. There might also be minor discrepancies in how different browsers handle the transition from light to dark mode.
