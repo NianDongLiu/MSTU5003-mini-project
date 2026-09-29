@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Breathing Pacer | 情绪呼吸冥想器</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Dynamic CSS keyframes for custom breathing patterns -->
+  <style id="dynamicAnimStyle"></style>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Audio element (Real ambient rain white noise) -->
+  <audio id="bgmAudio" src="bgm.mp3" loop preload="auto"></audio>
+
+  <main class="container">
+    <!-- Top Action Bar (Theme toggle & Sound toggle) -->
+    <div class="top-bar">
+      <!-- Dark Sleep Mode Toggle -->
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle Dark Sleep Mode" title="Dark Sleep Mode">
+        <svg class="icon moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="icon sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+
+      <!-- Sound Mute/Unmute Toggle -->
+      <button class="icon-btn" id="soundToggle" aria-label="Toggle Sound" title="Sound: On">
+        <svg class="icon sound-on-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+        <svg class="icon sound-off-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <h1 class="title">The Breathing Pacer</h1>
+      <p class="subtitle" id="patternSubtitle">Gentle balance: 4s inhale · 2s hold · 4s exhale · 2s rest</p>
+    </header>
+
+    <!-- Breathing Mode Selector (Pill Tabs) -->
+    <nav class="mode-selector" aria-label="Breathing Patterns">
+      <button class="mode-pill active" data-mode="balance">4-2-4 Balance</button>
+      <button class="mode-pill" data-mode="sleep">4-7-8 Sleep</button>
+      <button class="mode-pill" data-mode="box">4-4-4 Box</button>
+      <button class="mode-pill" data-mode="calm">4-6 Calm</button>
+    </nav>
+
+    <!-- Session Duration Timer Selector -->
+    <div class="session-timer-bar">
+      <span class="timer-label">Duration:</span>
+      <div class="timer-options" id="timerOptions">
+        <button class="timer-chip active" data-duration="0">Free</button>
+        <button class="timer-chip" data-duration="60">1 Min</button>
+        <button class="timer-chip" data-duration="180">3 Min</button>
+        <button class="timer-chip" data-duration="300">5 Min</button>
+      </div>
+      <div class="countdown-display" id="countdownDisplay" style="display: none;">
+        <span class="countdown-digits" id="countdownDigits">01:00</span>
+      </div>
+    </div>
+
+    <!-- Center breathing animation area with multi-layer organic halos -->
+    <div class="pacer-container">
+      <div class="halo halo-outer" id="haloOuter"></div>
+      <div class="halo halo-inner" id="haloInner"></div>
+      <div class="breathing-circle" id="circle">
+        <div class="inner-core"></div>
+        <div class="inner-ring"></div>
+      </div>
+    </div>
+
+    <!-- Dynamic breathing instruction text -->
+    <div class="text-container">
+      <p class="instruction-text" id="instruction">Click Start to begin</p>
+      <p class="rhythm-tag" id="rhythmTag">4s Inhale · 2s Hold · 4s Exhale · 2s Rest</p>
+      <p class="audio-hint">Whisper cues guide you with closed eyes</p>
+    </div>
+
+    <!-- Action controls -->
+    <div class="controls">
+      <button class="btn btn-primary" id="toggleBtn" aria-label="Start breathing session">
+        <span class="btn-icon-wrap" id="btnIconWrap">
+          <svg class="icon-play" width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <svg class="icon-stop" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+            <rect x="5" y="5" width="14" height="14" rx="2.5"/>
+          </svg>
+        </span>
+        <span class="btn-text" id="btnText">Start</span>
+      </button>
+    </div>
+
+    <!-- Minimal cycle counter -->
+    <footer class="footer">
+      <span class="cycle-count" id="cycleCount" style="display: none;">Cycles: 0</span>
+    </footer>
+  </main>
+
+  <!-- Session Completion Overlay -->
+  <div class="completion-overlay" id="completionOverlay">
+    <div class="completion-card">
+      <div class="completion-badge">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2 class="completion-title">You Did Great</h2>
+      <p class="completion-desc">Your session has gently concluded. Notice the quiet calm throughout your body and mind.</p>
+      <button class="btn btn-secondary" id="completionCloseBtn">Continue with Calm</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
