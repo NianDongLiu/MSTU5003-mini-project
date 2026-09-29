@@ -7,6 +7,7 @@ This project is a minimalist breathing pacer designed for people who need a quic
 - Download or clone all files in this repository.
 - Double-click `index.html` to open it in any modern web browser (Chrome or Safari recommended).
 - Ensure your device's volume is on to experience the audio features. Click "Start" to begin.
+You could also use this website published through Vervel: https://thebreathingpacer.vercel.app/
 
 **3. AI Tools and Selected Prompts**
 - **AI Tool Used:** Antigravity
